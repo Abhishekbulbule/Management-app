@@ -4,16 +4,22 @@ import { addEmployee } from "./Redux-app/Employee/employee";
 
 const AddEmployeePage = () => {
   const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
-  const [salary, setSalary] = useState(0);
+  const [salary, setSalary] = useState("");
   const [error, setError] = useState(" ");
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.preventDefault();
-    if (!name || !age || !email || !salary || !gender) {
+    if (
+      !name.trim() ||
+      !age.trim() ||
+      !email.trim() ||
+      !salary.trim() ||
+      !gender.trim()
+    ) {
       setError("Fill All Credentials!!");
       return;
     }
@@ -23,19 +29,23 @@ const AddEmployeePage = () => {
       return;
     }
     dispatch(addEmployee({ name, age, email, gender, salary }));
-    setAge(0);
+    setAge("");
     setEmail("");
     setName("");
     setGender("");
-    setSalary(0);
+    setSalary("");
+    setError(" ");
   };
   return (
     <div className="grid grid-col-1 place-items-center ">
-      <p className="text-red-500 text-sm">{error} </p>
-      <h2 className="text-xl w-[100%] py-2 text-center text-gray-600 my-3 font-bold">
+      <h2 className="text-xl w-[100%] py-2 text-center text-gray-600 my-1 font-bold">
         Add Employee Details
       </h2>
-      <form onSubmit={handleClick} className="grid grid-col-1 gap-2">
+      <p className="text-red-500 text-center text-sm">{error}&nbsp;</p>
+      <form
+        onSubmit={handleClick}
+        className="grid grid-col-1 gap-3 max-w-lg w-full px-2 lg:px-0"
+      >
         <div className=" grid grid-rows-1">
           <label className="font-medium text-gray-600 px-2" htmlFor="name">
             Enter Name
@@ -46,6 +56,7 @@ const AddEmployeePage = () => {
             id="name"
             name="name"
             required={true}
+            value={name}
             placeholder="Enter Employee Name"
             onChange={(e) => {
               setName(e.target.value);
@@ -64,6 +75,7 @@ const AddEmployeePage = () => {
             min={18}
             max={80}
             required={true}
+            value={age}
             onChange={(e) => {
               setAge(e.target.value);
             }}
@@ -81,6 +93,7 @@ const AddEmployeePage = () => {
               type="radio"
               name="gender"
               value="Male"
+              checked={gender === "Male"}
               onChange={(e) => {
                 setGender(e.target.value);
               }}
@@ -92,6 +105,7 @@ const AddEmployeePage = () => {
               type="radio"
               name="gender"
               value="Female"
+              checked={gender === "Female"}
               onChange={(e) => {
                 setGender(e.target.value);
               }}
@@ -107,6 +121,7 @@ const AddEmployeePage = () => {
             className="p-2 border border-gray-500 rounded-lg text-gray-600"
             type="email"
             id="email"
+            value={email}
             required={true}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -124,6 +139,7 @@ const AddEmployeePage = () => {
             type="number"
             id="salary"
             min={6000}
+            value={salary}
             required={true}
             name="salary"
             onChange={(e) => {
@@ -135,7 +151,7 @@ const AddEmployeePage = () => {
         <input
           type="submit"
           value="Submit"
-          className="rounded-md border border-gray-700 bg-gray-300 px-5 py-2.5 text-sm font-medium text-teal-600"
+          className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
         />
       </form>
     </div>

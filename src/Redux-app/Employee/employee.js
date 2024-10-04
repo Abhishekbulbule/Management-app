@@ -11,7 +11,6 @@ const initialState = {
 export const getEmployees = createAsyncThunk("./getEmployees", async () => {
   if (!localStorage.getItem("Employees")) {
     const response = await axios.get("/EmployeeData.json");
-    console.log("data received ---", response.data);
     localStorage.setItem("Employees", JSON.stringify(response.data));
     return response.data; // Return the fetched data
   } else {
@@ -24,19 +23,31 @@ export const EmployeeSlice = createSlice({
   initialState,
   reducers: {
     addEmployee: (state, action) => {
-      if (!localStorage.getItem("Employees")) {
-        getEmployees();
-      }
       let existingEmployees = JSON.parse(
         localStorage.getItem("Employees") || []
       );
       const updatedEmployees = [...existingEmployees, action.payload];
       localStorage.setItem("Employees", JSON.stringify(updatedEmployees));
+      state.employees = updatedEmployees;
     },
-    deleteEmployee: (action) => {
-      console.log("delete");
+    deleteEmployee: (state, action) => {
+      const index = action.payload;
+      let existingEmployees = JSON.parse(
+        localStorage.getItem("Employees") || []
+      );
+      const updatedEmployees = existingEmployees.filter((_, i) => i !== index);
+      localStorage.setItem("Employees", JSON.stringify(updatedEmployees));
+      state.employees = updatedEmployees;
     },
-    updateEmployee: (state, action) => {},
+    updateEmployee: (state, action) => {
+      const { updatedEmployee, index } = action.payload;
+      let existingEmployees = JSON.parse(
+        localStorage.getItem("Employees") || []
+      );
+      existingEmployees[index] = updatedEmployee;
+      localStorage.setItem("Employees", JSON.stringify(existingEmployees));
+      state.employees = existingEmployees;
+    },
   },
   extraReducers: (builder) => {
     builder

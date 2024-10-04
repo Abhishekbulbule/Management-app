@@ -1,22 +1,33 @@
-import { useState } from "react";
-import Navbar from "./components/Navbar";
 import Homepage from "./Homepage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ViewEmployeesPage from "./ViewEmployeesPage";
 import AddEmployeePage from "./AddEmployeePage";
 import UpdateEmployeePage from "./UpdateEmployeePage";
+import { useEffect } from "react";
+import { getEmployees } from "./Redux-app/Employee/employee";
+import { useDispatch } from "react-redux";
 function App() {
-  const [count, setCount] = useState(0);
-
+  const dispatch = useDispatch();
+  //Fetching Data once component load
+  useEffect(() => {
+    dispatch(getEmployees());
+  }, []);
   return (
     <>
       <Router>
-        <Navbar />
+        <Homepage />
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/view" element={<ViewEmployeesPage />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <ViewEmployeesPage />
+              </>
+            }
+          />
           <Route path="/add" element={<AddEmployeePage />} />
-          <Route path="/update" element={<UpdateEmployeePage />} />
+          <Route path="/view" element={<ViewEmployeesPage />} />
+          <Route path="/update/:index" element={<UpdateEmployeePage />} />
         </Routes>
       </Router>
     </>
