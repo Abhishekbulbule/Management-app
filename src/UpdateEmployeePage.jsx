@@ -104,7 +104,6 @@ const UpdateEmployeePage = () => {
             Enter Gender
           </label>
           <div className="flex flex-row">
-            <span className="ml-2 text-gray-600">Male</span>
             <input
               className="mr-3 "
               type="radio"
@@ -116,7 +115,7 @@ const UpdateEmployeePage = () => {
               }}
               required
             />
-            <span className="ml-2 text-gray-600">Female</span>
+            <span className="ml-2 text-gray-600">Male</span>
             <input
               className="mr-3"
               type="radio"
@@ -128,6 +127,7 @@ const UpdateEmployeePage = () => {
               }}
               required
             />
+            <span className="ml-2 text-gray-600">Female</span>
           </div>
         </div>
         <div className="grid grid-rows-1">
@@ -148,7 +148,7 @@ const UpdateEmployeePage = () => {
           />
         </div>
         <div className="grid grid-rows-1">
-          <label className="font-medium text-gray-600 px-2" htmlFor="salary">
+          <label className="label" htmlFor="salary">
             Enter Salary
           </label>
           <input
@@ -165,11 +165,7 @@ const UpdateEmployeePage = () => {
             placeholder="Enter Salary"
           />
         </div>
-        <input
-          type="submit"
-          value="Submit"
-          className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-        />
+        <input type="submit" value="Submit" className="btn" />
       </form>
     </div>
   );

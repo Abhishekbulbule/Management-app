@@ -5,3 +5,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn{
+    @apply rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow
+}
+.label{
+    @apply font-medium text-gray-600 px-2
+}
+.input{
+    @apply p-2 border border-gray-500 rounded-lg text-gray-600
+}
