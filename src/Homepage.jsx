@@ -15,6 +15,7 @@ const Homepage = () => {
       </h1>
       <Boxes name="Manage Employees" link="/view" />
       <Boxes name="Add Employee Details" link="/add" />
+      <Boxes name="Gallery" link="/gallery" />
     </div>
   );
 };

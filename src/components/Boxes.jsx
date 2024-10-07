@@ -15,6 +15,10 @@ const Boxes = (props) => {
         navigate(link);
         break;
 
+      case "/gallery":
+        navigate(link);
+        break;
+
       default:
         break;
     }

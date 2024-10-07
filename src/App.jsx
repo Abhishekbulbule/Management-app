@@ -6,6 +6,7 @@ import UpdateEmployeePage from "./UpdateEmployeePage";
 import { useEffect } from "react";
 import { getEmployees } from "./redux_app/Employee/employee";
 import { useDispatch } from "react-redux";
+import Gallery from "./Gallery";
 function App() {
   const dispatch = useDispatch();
   //Fetching Data once component load
@@ -27,6 +28,7 @@ function App() {
           />
           <Route path="/add" element={<AddEmployeePage />} />
           <Route path="/view" element={<ViewEmployeesPage />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/update/:index" element={<UpdateEmployeePage />} />
         </Routes>
       </Router>

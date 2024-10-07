@@ -8,7 +8,6 @@ const initialState = {
 
 export const getEmployees = createAsyncThunk("./getEmployees", async () => {
   const employeesData = localStorage.getItem("Employees");
-  console.log(employeesData);
   if (!employeesData || []) {
     const response = await axios.get("/EmployeeData.json");
     localStorage.setItem("Employees", JSON.stringify(response.data));
