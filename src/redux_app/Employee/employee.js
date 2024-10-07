@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { act } from "react";
-
 const initialState = {
   employees: [],
   loading: false,
@@ -9,12 +7,14 @@ const initialState = {
 };
 
 export const getEmployees = createAsyncThunk("./getEmployees", async () => {
-  if (!localStorage.getItem("Employees")) {
+  const employeesData = localStorage.getItem("Employees");
+  console.log(employeesData);
+  if (!employeesData || []) {
     const response = await axios.get("/EmployeeData.json");
     localStorage.setItem("Employees", JSON.stringify(response.data));
-    return response.data; // Return the fetched data
+    return response.data;
   } else {
-    return JSON.parse(localStorage.getItem("Employees"));
+    return JSON.parse(employeesData);
   }
 });
 

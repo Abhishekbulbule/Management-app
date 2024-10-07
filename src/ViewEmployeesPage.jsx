@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteEmployee, getEmployees } from "./Redux-app/Employee/employee";
+import { deleteEmployee, getEmployees } from "./redux_app/Employee/employee";
 import { useNavigate } from "react-router-dom";
 
 const ViewEmployeesPage = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 // todo static data store in const and fetch it //do regex for email
 const Input = ({
-  classes,
+  className,
   type,
   id,
   name,
@@ -9,12 +9,13 @@ const Input = ({
   max,
   required,
   value,
-  onchange,
+  onChange,
   placeholder,
+  checked,
 }) => {
   return (
     <input
-      className={classes}
+      className={className}
       type={type}
       id={id}
       name={name}
@@ -22,8 +23,10 @@ const Input = ({
       max={max}
       required={required}
       value={value}
-      onChange={onchange}
+      onChange={onChange}
       placeholder={placeholder}
+      checked={checked}
+      autoComplete={name}
     />
   );
 };

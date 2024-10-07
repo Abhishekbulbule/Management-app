@@ -1,49 +1,73 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmployees, updateEmployee } from "./Redux-app/Employee/employee";
+import { getEmployees, updateEmployee } from "./redux_app/Employee/employee";
 import { useNavigate, useParams } from "react-router-dom";
+import { INPUTS_DATA, LABEL_DATA } from "./StaticData";
+import Button from "./components/Button";
+import Input from "./components/Input";
+import Label from "./components/Label";
 
 const UpdateEmployeePage = () => {
   const { employees } = useSelector((state) => state.employee);
   const { index } = useParams();
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [email, setEmail] = useState("");
-  const [salary, setSalary] = useState("");
   const [formError, setError] = useState(" ");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const employee = employees[index];
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    email: "",
+    salary: "",
+  });
   useEffect(() => {
     if (employee) {
-      setAge(employee.age);
-      setName(employee.name);
-      setSalary(employee.salary);
-      setEmail(employee.email);
-      setGender(employee.gender);
+      setFormData((prevData) => ({ ...prevData, ...employee }));
     }
   }, [employee]);
 
   if (!employee) {
     return <p className="text-center m-3 ">Loading!!!</p>;
   }
-  const handleClick = (e) => {
-    e.preventDefault();
+
+  const handleValueChange = (e) => {
+    let { name, value } = e.target;
     if (
-      !name.trim() ||
-      !age === undefined ||
-      !email.trim() ||
-      !salary === undefined ||
-      !gender.trim()
+      (name === "age" || name === "salary") &&
+      value.startsWith("0") &&
+      value.length > 1
     ) {
-      setError("Fill All Credentials!!");
-      return;
+      value = value.replace(/^0+/, ""); // Remove leading zeros
     }
-    if (!email.includes("@gmail.com")) {
+    if (name === "name") {
+      value = value.replace(/[^a-zA-Z\s]/g, ""); // Remove anything that's not a letter or space
+    }
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const validateFormData = () => {
+    const { name, age, email, gender, salary } = formData;
+    if (!name.trim() || !age || !email.trim() || !salary || !gender.trim()) {
+      setError("Fill All Credentials!!");
+      return false;
+    } else if (!email.includes("@gmail.com")) {
       //ToDO: regex for email
       setError("Fill Valid Email!");
+      return false;
+    } else {
+      setError("");
+      return true;
+    }
+  };
+
+  const handleClick = (e) => {
+    const { name, age, gender, email, salary } = formData;
+    e.preventDefault();
+    if (!validateFormData()) {
       return;
+    } else {
+      setError("");
     }
     dispatch(
       updateEmployee({
@@ -54,118 +78,47 @@ const UpdateEmployeePage = () => {
     navigate("/view");
   };
   return (
-    <div className="grid grid-col-1 place-items-center ">
-      <h2 className="text-xl w-[100%] py-2 text-center text-gray-600 my-1 font-bold">
-        Update Employee Details
-      </h2>
-      <p className="text-red-500 text-sm">{formError} </p>
-      <form
-        onSubmit={handleClick}
-        className="grid grid-col-1 gap-3 max-w-lg w-full px-2 lg:px-0"
-      >
-        <div className=" grid grid-rows-1">
-          <label className="font-medium text-gray-600 px-2" htmlFor="name">
-            Enter Name
-          </label>
-          <input
-            className="p-2 border  border-gray-500 rounded-lg text-gray-600"
-            type="text"
-            id="name"
-            name="name"
-            required={true}
-            value={name}
-            placeholder="Enter Employee Name"
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
-        <div className=" grid grid-rows-1">
-          <label className="font-medium text-gray-600 px-2" htmlFor="age">
-            Enter Age
-          </label>
-          <input
-            className="p-2  border border-gray-500 rounded-lg text-gray-600"
-            type="number"
-            id="age"
-            name="age"
-            min={18}
-            max={80}
-            required={true}
-            value={age}
-            onChange={(e) => {
-              setAge(e.target.value);
-            }}
-            placeholder="Enter age"
-          />
-        </div>
-        <div className="grid grid-rows-1">
-          <label className="font-medium text-gray-600 px-2" htmlFor="gender">
-            Enter Gender
-          </label>
-          <div className="flex flex-row">
-            <input
-              className="mr-3 "
-              type="radio"
-              name="gender"
-              value="Male"
-              checked={gender === "Male"}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-              required
-            />
-            <span className="ml-2 text-gray-600">Male</span>
-            <input
-              className="mr-3"
-              type="radio"
-              name="gender"
-              value="Female"
-              checked={gender === "Female"}
-              onChange={(e) => {
-                setGender(e.target.value);
-              }}
-              required
-            />
-            <span className="ml-2 text-gray-600">Female</span>
-          </div>
-        </div>
-        <div className="grid grid-rows-1">
-          <label className="font-medium text-gray-600 px-2" htmlFor="email">
-            Enter Email
-          </label>
-          <input
-            className="p-2 border border-gray-500 rounded-lg text-gray-600"
-            type="email"
-            id="email"
-            value={email}
-            required={true}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            name="email"
-            placeholder="Enter Email"
-          />
-        </div>
-        <div className="grid grid-rows-1">
-          <label className="label" htmlFor="salary">
-            Enter Salary
-          </label>
-          <input
-            className="p-2 border border-gray-500 rounded-lg text-gray-600"
-            type="number"
-            id="salary"
-            min={6000}
-            value={salary}
-            required={true}
-            name="salary"
-            onChange={(e) => {
-              setSalary(e.target.value);
-            }}
-            placeholder="Enter Salary"
-          />
-        </div>
-        <input type="submit" value="Submit" className="btn" />
+    <div className="grid grid-cols-1 place-items-center ">
+      <h2 className=".header_two">Update Employee Details</h2>
+      <p className="error">{formError} </p>
+      <form onSubmit={handleClick} className="form">
+        {INPUTS_DATA?.map((input, index) =>
+          input.type === "radio" ? (
+            <div className="grid grid-rows-1" key="gender">
+              <p className="label">Select Gender</p>
+
+              <div className="flex flex-row" id="gender">
+                <Input
+                  {...INPUTS_DATA[index]}
+                  value="Male"
+                  id={INPUTS_DATA[index].options[0].id}
+                  checked={formData.gender === "Male"}
+                  onChange={handleValueChange}
+                />
+                <Label classes="mx-1" hFor="gender_male" labelText="Male" />
+                <Input
+                  {...INPUTS_DATA[index]}
+                  id={INPUTS_DATA[index].options[1].id}
+                  value="Female"
+                  checked={formData.gender === "Female"}
+                  onChange={handleValueChange}
+                />
+                <Label classes="mx-1" hFor="gender_female" labelText="Female" />
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-rows-1" key={input.id}>
+              <Label {...LABEL_DATA[index]} />
+              <Input
+                {...input}
+                value={formData[input.name] || ""}
+                onChange={handleValueChange}
+              />
+            </div>
+          )
+        )}
+
+        <Button type="submit" label="Submit" classes="btn" />
       </form>
     </div>
   );

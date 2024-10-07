@@ -4,7 +4,7 @@ import ViewEmployeesPage from "./ViewEmployeesPage";
 import AddEmployeePage from "./AddEmployeePage";
 import UpdateEmployeePage from "./UpdateEmployeePage";
 import { useEffect } from "react";
-import { getEmployees } from "./Redux-app/Employee/employee";
+import { getEmployees } from "./redux_app/Employee/employee";
 import { useDispatch } from "react-redux";
 function App() {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React from "react";
 
-const Label = ({ hFor = "", classes = "", labelText }) => {
+const Label = ({ hFor = "", className = "", labelText }) => {
   return (
-    <label htmlFor={hFor} className={classes}>
+    <label htmlFor={hFor} className={className}>
       {labelText}
     </label>
   );

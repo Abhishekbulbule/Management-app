@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Boxes from "./components/Boxes";
 import { useDispatch } from "react-redux";
-import { getEmployees } from "./Redux-app/Employee/employee";
+import { getEmployees } from "./redux_app/Employee/employee";
 
 const Homepage = () => {
   const dispatch = useDispatch();
