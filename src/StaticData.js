@@ -47,27 +47,27 @@ export const INPUTS_DATA = [
 
 export const LABEL_DATA = [
   {
-    hFor: "name",
+    htmlFor: "name",
     className: "label",
     labelText: "Enter Name",
   },
   {
-    hFor: "age",
+    htmlFor: "age",
     className: "label",
     labelText: "Enter Age",
   },
   {
-    hFor: "gender",
+    htmlFor: "gender",
     className: "label",
     labelText: "Enter Gender",
   },
   {
-    hFor: "email",
+    htmlFor: "email",
     className: "label",
     labelText: "Enter Email",
   },
   {
-    hFor: "salary",
+    htmlFor: "salary",
     className: "label",
     labelText: "Enter Salary",
   },

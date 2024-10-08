@@ -6,5 +6,14 @@ export default defineConfig({
   test: {
     environment: "jsdom", // Set test environment to jsdom
     globals: true,
+    coverage: {
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "/node_modules/",
+        "src/StaticData.js",
+        "postcss.config.js",
+        "tailwind.config.js",
+      ],
+    },
   },
 });

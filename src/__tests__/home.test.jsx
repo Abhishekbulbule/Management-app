@@ -1,46 +1,52 @@
 import React from "react";
-import { it, expect, describe, vi } from "vitest";
+import { it, expect, describe } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import Card from "../components/Card";
-import Boxes from "../components/Boxes";
-import Button from "../components/Button";
-
-// describe("homepage buttons", () => {
-//   it("should navigate to page on clicking any buttons", () => {
-//     const navigate = vi.mocked(useNavigate)(); // Get the mocked function
-//     render(
-//       <MemoryRouter>
-//         <Boxes link="/add" name="Add" />
-//       </MemoryRouter>
-//     );
-
-//     const button = screen.getByRole("button", { name: /add/ }); // Use button name
-//     expect(button).toBeInTheDocument();
-
-//     fireEvent.click(button);
-//     expect(navigate).toHaveBeenCalledWith("/add"); // Correct way to check for arguments
-//   });
-// });
-
-// Card
-describe("card", () => {
-  it("should contain image and h2 tag with text value", () => {
-    render(<Card title={"Logo"} />);
-    const image = screen.getByRole("img");
-    const heading = screen.getByRole("heading");
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute("src");
-    expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent("Logo");
-  });
+import { BrowserRouter as Router } from "react-router-dom";
+import Homepage from "../Homepage";
+import { configureStore } from "@reduxjs/toolkit";
+import employeeReducer from "../redux_app/Employee/employee";
+import { Provider } from "react-redux";
+const store = configureStore({
+  reducer: {
+    employee: employeeReducer,
+  },
 });
 
-//button
-describe("button", () => {
-  it("should  display btn", () => {
-    render(<Button title={"Submit"} />);
-    const button = screen.getByRole("button");
-    expect(button).toBeInTheDocument();
+describe("Homepage", () => {
+  it("should contain 3 buttons", () => {
+    render(
+      <Provider store={store}>
+        <Router>
+          <Homepage />
+        </Router>
+      </Provider>
+    );
+    const buttons = screen.getAllByRole("button");
+    expect(buttons.length >= 3).toBeTruthy();
+  });
+  it("on clicking on any button should navigate to different page", () => {
+    render(
+      <Provider store={store}>
+        <Router>
+          <Homepage />
+        </Router>
+      </Provider>
+    );
+    //add
+    const addbutton = screen.getByText(/Add Employee Details/i);
+    expect(addbutton).toBeInTheDocument();
+    fireEvent.click(addbutton);
+    expect(window.location.pathname).toBe("/add");
+    //view
+    const viewButton = screen.getByText(/Manage Employees/i);
+    expect(viewButton).toBeInTheDocument();
+    fireEvent.click(viewButton);
+    expect(window.location.pathname).toBe("/view");
+    //gallery
+    const galleryButton = screen.getByText(/gallery/i);
+    expect(galleryButton).toBeInTheDocument();
+    fireEvent.click(galleryButton);
+    expect(window.location.pathname).toBe("/gallery");
   });
 });

@@ -62,8 +62,8 @@ const UpdateEmployeePage = () => {
   };
 
   const handleClick = (e) => {
-    const { name, age, gender, email, salary } = formData;
     e.preventDefault();
+    const { name, age, gender, email, salary } = formData;
     if (!validateFormData()) {
       return;
     } else {
@@ -79,7 +79,7 @@ const UpdateEmployeePage = () => {
   };
   return (
     <div className="grid grid-cols-1 place-items-center ">
-      <h2 className=".header_two">Update Employee Details</h2>
+      <h2 className="header_two">Update Employee Details</h2>
       <p className="error">{formError} </p>
       <form onSubmit={handleClick} className="form">
         {INPUTS_DATA?.map((input, index) =>
