@@ -6,16 +6,25 @@ const initialState = {
   error: null,
 };
 
-export const getEmployees = createAsyncThunk("./getEmployees", async () => {
-  const employeesData = localStorage.getItem("Employees");
-  if (!employeesData || employeesData === "[]") {
-    const response = await axios.get("/EmployeeData.json");
-    localStorage.setItem("Employees", JSON.stringify(response.data));
-    return response.data;
-  } else {
-    return JSON.parse(employeesData);
+export const getEmployees = createAsyncThunk(
+  "./getEmployees",
+  async (_, { rejectWithValue }) => {
+    try {
+      const employeesData = localStorage.getItem("Employees");
+      if (!employeesData || employeesData === "[]") {
+        const response = await axios.get("/EmployeeData.json");
+        localStorage.setItem("Employees", JSON.stringify(response.data));
+        return response.data;
+      } else {
+        return JSON.parse(employeesData);
+      }
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
   }
-});
+);
 
 export const EmployeeSlice = createSlice({
   name: "employee",
@@ -39,11 +48,11 @@ export const EmployeeSlice = createSlice({
       state.employees = updatedEmployees;
     },
     updateEmployee: (state, action) => {
-      const { updatedEmployee, index } = action.payload;
+      const { data, index } = action.payload;
       let existingEmployees = JSON.parse(
         localStorage.getItem("Employees") || []
       );
-      existingEmployees[index] = updatedEmployee;
+      existingEmployees[index] = data;
       localStorage.setItem("Employees", JSON.stringify(existingEmployees));
       state.employees = existingEmployees;
     },

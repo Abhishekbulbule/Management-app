@@ -1,6 +1,6 @@
 import React from "react";
 import { it, expect, describe, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import AddEmployeePage from "../AddEmployeePage";
 import { configureStore } from "@reduxjs/toolkit";

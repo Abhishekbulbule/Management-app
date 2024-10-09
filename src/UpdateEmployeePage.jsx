@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmployees, updateEmployee } from "./redux_app/Employee/employee";
+import { updateEmployee } from "./redux_app/Employee/employee";
 import { useNavigate, useParams } from "react-router-dom";
 import { INPUTS_DATA, LABEL_DATA } from "./StaticData";
 import Button from "./components/Button";
@@ -48,11 +48,11 @@ const UpdateEmployeePage = () => {
 
   const validateFormData = () => {
     const { name, age, email, gender, salary } = formData;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!name.trim() || !age || !email.trim() || !salary || !gender.trim()) {
       setError("Fill All Credentials!!");
       return false;
-    } else if (!email.includes("@gmail.com")) {
-      //ToDO: regex for email
+    } else if (!emailRegex.test(email)) {
       setError("Fill Valid Email!");
       return false;
     } else {
@@ -61,9 +61,8 @@ const UpdateEmployeePage = () => {
     }
   };
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, age, gender, email, salary } = formData;
     if (!validateFormData()) {
       return;
     } else {
@@ -71,7 +70,7 @@ const UpdateEmployeePage = () => {
     }
     dispatch(
       updateEmployee({
-        updatedEmployee: { name, age, email, gender, salary },
+        data: formData,
         index,
       })
     );
@@ -81,7 +80,7 @@ const UpdateEmployeePage = () => {
     <div className="grid grid-cols-1 place-items-center ">
       <h2 className="header_two">Update Employee Details</h2>
       <p className="error">{formError} </p>
-      <form onSubmit={handleClick} className="form">
+      <form onSubmit={handleSubmit} className="form">
         {INPUTS_DATA?.map((input, index) =>
           input.type === "radio" ? (
             <div className="grid grid-rows-1" key="gender">

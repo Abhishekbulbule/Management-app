@@ -62,6 +62,7 @@ const ViewEmployeesPage = () => {
                   <button
                     className="rounded-md bg-red-600 py-1 mx-1 flex items-center justify-center text-sm font-medium text-white shadow"
                     onClick={() => handleDeleteClick(index)}
+                    data-testid={`delete${index}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +82,7 @@ const ViewEmployeesPage = () => {
                   <button
                     className="rounded-md bg-teal-600 py-1 mx-1 flex items-center justify-center text-sm font-medium text-white shadow"
                     onClick={() => handleEditClick(index)}
+                    data-testid={`edit${index}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
