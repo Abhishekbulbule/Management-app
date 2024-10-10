@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEmployee, getEmployees } from "./redux_app/Employee/employee";
 import { useNavigate } from "react-router-dom";
+// import { Container, Paper } from "@mui/material";
+// import { DataGrid } from "@mui/x-data-grid";
+// import useId from "@mui/material/utils/useId";
 
 const ViewEmployeesPage = () => {
   const navigate = useNavigate();
@@ -22,8 +25,37 @@ const ViewEmployeesPage = () => {
   const handleEditClick = (index) => {
     navigate(`/update/${index}`);
   };
+  // const columns = [
+  //   { field: "name", headerName: "Name", width: 200 },
+  //   { field: "age", headerName: "Age", width: 200, type: "number" },
+  //   { field: "gender", headerName: "Gender", width: 200, sortable: false },
+  //   {
+  //     field: "email",
+  //     headerName: "Email",
+  //     description: "This column has a value getter and is not sortable.",
+  //     sortable: false,
+  //     width: 250,
+  //   },
+  //   { field: "salary", headerName: "Salary", type: "number", width: 200 },
+  // ];
+  // const rows = Array.isArray(employees) ? employees : [];
+  // console.log(employees);
+  // const paginationModel = { page: 0, pageSize: 5 };
+
   return (
     <div className=" flex flex-col w-full h-full justify-center items-center">
+      {/* <Container>
+        <Paper sx={{ height: 600, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => row.email}
+            initialState={{ pagination: { paginationModel } }}
+            pageSizeOptions={[5, 10]}
+            sx={{ border: 0 }}
+          />
+        </Paper>
+      </Container> */}
       <h2 className="text-xl w-[100%] py-2 text-gray-600 sm:m-1 my-3 text-center font-bold">
         All Employees List
       </h2>
