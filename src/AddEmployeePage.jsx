@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "./redux_app/Employee/employee";
-import Button from "./components/Button";
-import Label from "./components/Label";
+import ButtonComponent from "./components/ButtonComponent";
 import Input from "./components/Input";
 import { INPUTS_DATA, LABEL_DATA } from "./StaticData";
 import {
@@ -10,8 +9,9 @@ import {
   FormControlLabel,
   FormLabel,
   RadioGroup,
+  Stack,
+  Typography,
 } from "@mui/material";
-
 import Radio from "@mui/material/Radio";
 
 const AddEmployeePage = () => {
@@ -35,6 +35,20 @@ const AddEmployeePage = () => {
     ) {
       value = value.replace(/^0+/, ""); // Remove leading zeros
     }
+    if (name === "age" && e.key.length === 1 && !/^[0-9]$/.test(e.key)) {
+      e.preventDefault();
+    }
+
+    if (name === "age" && (value < 18 || value > 60)) {
+      setError("Minimum age is 18 and maximum age is 60!!");
+    } else {
+      setError("");
+    }
+    if (name === "salary" && value < 5000) {
+      setError("Minimum Salary is 5000!!");
+    } else {
+      setError("");
+    }
     if (name === "name") {
       value = value.replace(/[^a-zA-Z\s]/g, ""); // Remove anything that's not a letter or space
     }
@@ -43,17 +57,23 @@ const AddEmployeePage = () => {
 
   const validateFormData = () => {
     const { name, age, email, gender, salary } = formData;
+    console.log(email);
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!name.trim() || !age || !email.trim() || !salary || !gender.trim()) {
       setError("Fill All Credentials!!");
       return false;
-    } else if (!emailRegex.test(email)) {
+    }
+    if (!emailRegex.test(email)) {
+      console.log(email);
       setError("Fill Valid Email!");
       return false;
-    } else {
-      setError("");
-      return true;
     }
+    if (age < 18 || age > 60) {
+      setError("Minimum age is 18 and maximum age is 60");
+      return false;
+    }
+    setError("");
+    return true;
   };
 
   const handleClick = (e) => {
@@ -74,9 +94,40 @@ const AddEmployeePage = () => {
   };
 
   return (
-    <div className="grid grid-col-1 place-items-center ">
-      <h2 className="header_two">Add Employee Details</h2>
-      <p className="error">{error}&nbsp;</p>
+    <Stack
+      direction={"column"}
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        variant="h6"
+        component={"h2"}
+        sx={{
+          marginY: 2,
+          fontWeight: 500,
+          color: "#33335b",
+          backgroundColor: "transparent",
+          padding: 0,
+          textAlign: "left",
+        }}
+      >
+        Add Employee Details
+      </Typography>
+      <Typography
+        variant="body1"
+        component={"p"}
+        sx={{
+          fontWeight: 500,
+          color: "red",
+          backgroundColor: "transparent",
+          padding: 0,
+          textAlign: "left",
+        }}
+      >
+        {error}&nbsp;
+      </Typography>
       <form onSubmit={handleClick} className="form">
         {INPUTS_DATA.map((input, index) =>
           input.type === "radio" ? (
@@ -89,6 +140,7 @@ const AddEmployeePage = () => {
                 name="controlled-radio-buttons-group"
                 value={formData.gender}
                 onChange={handleValueChange}
+                sx={{ flexDirection: "row" }}
               >
                 <FormControlLabel
                   name="gender"
@@ -105,49 +157,18 @@ const AddEmployeePage = () => {
               </RadioGroup>
             </FormControl>
           ) : (
-            // <div className="grid grid-rows-1" key="gender">
-            //   {/* <p className="label">Select Gender</p> */}
-
-            //   <div className="grid grid-rows-1 gap-2" id="gender">
-            //     <Input
-            //       {...INPUTS_DATA[index]}
-            //       type="radio"
-            //       value="Male"
-            //       label="Male"
-            //       id={INPUTS_DATA[index].options[0].id}
-            //       checked={formData.gender === "Male"}
-            //       onChange={handleValueChange}
-            //     />
-            //     {/* <Label className="mx-1 " hFor="gender_male" labelText="Male" /> */}
-            //     <Input
-            //       {...INPUTS_DATA[index]}
-            //       id={INPUTS_DATA[index].options[1].id}
-            //       label="Female"
-            //       value="Female"
-            //       checked={formData.gender === "Female"}
-            //       onChange={handleValueChange}
-            //     />
-            //     {/* <Label
-            //       className="mx-1"
-            //       hFor="gender_female"
-            //       labelText="Female"
-            //     /> */}
-            //   </div>
-            // </div>
-            <div className="grid grid-rows-1" key={input.id}>
-              {/* <Label {...LABEL_DATA[index]} /> */}
+            <Stack direction={"row"} key={input.id}>
               <Input
                 {...input}
                 value={formData[input.name] || ""}
                 onChange={handleValueChange}
               />
-            </div>
+            </Stack>
           )
         )}
-
-        <Button type="submit" label="Submit" classes="btn" />
+        <ButtonComponent type="submit" label="Submit" classes="btn" />
       </form>
-    </div>
+    </Stack>
   );
 };
 

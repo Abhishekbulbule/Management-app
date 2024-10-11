@@ -28,7 +28,7 @@ const Homepage = () => {
       <AppBar position="relative">
         <Toolbar>
           <HailIcon />
-          <Typography
+          {/* <Typography
             variant="h6"
             sx={{
               marginY: 1,
@@ -37,10 +37,22 @@ const Homepage = () => {
             }}
           >
             Employee Management App
+          </Typography> */}
+          <Typography
+            variant="h6"
+            sx={{
+              marginY: 2, // Slightly increased vertical margin for better spacing
+              fontWeight: "bold",
+              color: "white", // Rich dark blue color for text
+              borderRadius: 1, // Slightly rounded corners
+              padding: 1, // Padding for a bit of breathing space around the text
+            }}
+          >
+            Employee Management App
           </Typography>
         </Toolbar>
+        <Boxes links={routes} />
       </AppBar>
-      <Boxes links={routes} />
     </>
   );
 };

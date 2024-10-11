@@ -2,6 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEmployee, getEmployees } from "./redux_app/Employee/employee";
 import { useNavigate } from "react-router-dom";
+import {
+  Divider,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 // import { Container, Paper } from "@mui/material";
 // import { DataGrid } from "@mui/x-data-grid";
 // import useId from "@mui/material/utils/useId";
@@ -9,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 const ViewEmployeesPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(6);
   const { employees, loading, error } = useSelector((state) => state.employee);
   useEffect(() => {
     dispatch(getEmployees());
@@ -25,38 +40,117 @@ const ViewEmployeesPage = () => {
   const handleEditClick = (index) => {
     navigate(`/update/${index}`);
   };
-  // const columns = [
-  //   { field: "name", headerName: "Name", width: 200 },
-  //   { field: "age", headerName: "Age", width: 200, type: "number" },
-  //   { field: "gender", headerName: "Gender", width: 200, sortable: false },
-  //   {
-  //     field: "email",
-  //     headerName: "Email",
-  //     description: "This column has a value getter and is not sortable.",
-  //     sortable: false,
-  //     width: 250,
-  //   },
-  //   { field: "salary", headerName: "Salary", type: "number", width: 200 },
-  // ];
-  // const rows = Array.isArray(employees) ? employees : [];
-  // console.log(employees);
+  const columns = [
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "age", headerName: "Age", width: 200, type: "number" },
+    { field: "gender", headerName: "Gender", width: 200, sortable: false },
+    {
+      field: "email",
+      headerName: "Email",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 250,
+    },
+    { field: "salary", headerName: "Salary", type: "number", width: 200 },
+    { field: "manage", headerName: "Manage", type: "button", width: 200 },
+  ];
+  const rows = Array.isArray(employees) ? employees : [];
+  console.log(employees);
   // const paginationModel = { page: 0, pageSize: 5 };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   return (
     <div className=" flex flex-col w-full h-full justify-center items-center">
-      {/* <Container>
-        <Paper sx={{ height: 600, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            getRowId={(row) => row.email}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            sx={{ border: 0 }}
-          />
-        </Paper>
-      </Container> */}
-      <h2 className="text-xl w-[100%] py-2 text-gray-600 sm:m-1 my-3 text-center font-bold">
+      <Typography
+        variant="h6"
+        component={"h2"}
+        sx={{
+          marginY: 2,
+          fontWeight: 800,
+          color: "#33335b",
+          backgroundColor: "transparent",
+          padding: 0,
+          textAlign: "left",
+        }}
+      >
+        View Employee Details
+      </Typography>
+      <Paper
+        sx={{
+          overflow: "hidden",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          mx: 1,
+        }}
+      >
+        <TableContainer
+          sx={{ maxHeight: 390, backgroundColor: "#f9f9f9", boxShadow: 1 }}
+        >
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((element, index) => (
+                  <TableCell
+                    key={crypto.randomUUID()}
+                    id={element.field}
+                    align="left"
+                    width={element.width}
+                    sx={{
+                      backgroundColor: "#e0e0e0",
+                      fontWeight: "bold",
+                      borderBottom: "2px solid #ccc",
+                    }}
+                  >
+                    {element.headerName}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.name + row.age}
+                    sx={{
+                      "&:nth-of-type(odd)": { backgroundColor: "#f5f5f5" },
+                      "&:nth-of-type(even)": { backgroundColor: "#ffffff" },
+                      borderBottom: "1px solid #ddd",
+                    }}
+                  >
+                    {columns.map((element, index) => (
+                      <TableCell key={crypto.randomUUID()} align={"left"}>
+                        {row[element.field]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[6, 10]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      {/* <h2 className="text-xl w-[100%] py-2 text-gray-600 sm:m-1 my-3 text-center font-bold">
         All Employees List
       </h2>
       <div className="w-full overflow-x-auto grid place-items-center">
@@ -136,7 +230,7 @@ const ViewEmployeesPage = () => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
     </div>
   );
 };

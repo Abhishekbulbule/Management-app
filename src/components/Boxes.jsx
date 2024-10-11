@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
+import Button from "./ButtonComponent";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -52,51 +52,37 @@ const Boxes = ({ links }) => {
   };
   return (
     <Box>
-      <BottomNavigation showLabels value={value} onChange={handleButtonClick}>
-        {/* {links.map((element, index) => ( */}
-        <BottomNavigationAction
-          sx={{
-            color: "#33335b",
-            fontWeight: "bold",
-            borderBottom: 3,
-            borderColor: "GrayText",
-            "&.Mui-selected": {
-              borderColor: "Highlight",
-            },
-            margin: 1,
-          }}
-          label={links[0].name}
-          value={links[0].link}
-        />
-        <BottomNavigationAction
-          sx={{
-            color: "#33335b",
-            borderBottom: 3,
-            borderColor: "GrayText",
-            fontWeight: "bold",
-            "&.Mui-selected": {
-              borderColor: "Highlight",
-            },
-            margin: 1,
-          }}
-          label={links[1].name}
-          value={links[1].link}
-        />
-        <BottomNavigationAction
-          sx={{
-            borderBottom: 3,
-            borderColor: "GrayText",
-            color: "#33335b",
-            fontWeight: "bold",
-            "&.Mui-selected": {
-              borderColor: "Highlight",
-            },
-            margin: 1,
-          }}
-          label={links[2].name}
-          value={links[2].link}
-        />
-        {/* ))} */}
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={handleButtonClick}
+        sx={{
+          backgroundColor: "#f8f9fa",
+          boxShadow: 1,
+        }}
+      >
+        {links.map((element, index) => (
+          <BottomNavigationAction
+            key={element.name + index}
+            sx={{
+              color: "#33335b",
+              fontWeight: "bold",
+              borderBottom: 3,
+              borderColor: "GrayText",
+              "&.Mui-selected": {
+                borderColor: "#007BFF",
+                color: "#007BFF",
+                backgroundColor: "#e9ecef",
+              },
+              margin: 1,
+              "&:hover": {
+                backgroundColor: "#f1f3f5",
+              },
+            }}
+            label={element.name}
+            value={element.link}
+          />
+        ))}
       </BottomNavigation>
     </Box>
   );
