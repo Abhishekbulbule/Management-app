@@ -47,7 +47,17 @@ const UpdateEmployeePage = () => {
       value.startsWith("0") &&
       value.length > 1
     ) {
-      value = value.replace(/^0+/, ""); // Remove leading zeros
+      value = value.replace(/^0+/, ""); //replace first 0
+    }
+    if (name === "age" && (value < 18 || value > 60)) {
+      setError("Minimum age is 18 and maximum age is 60!!");
+    } else {
+      setError("");
+    }
+    if (name === "salary" && value < 5000) {
+      setError("Minimum Salary is 5000!!");
+    } else {
+      setError("");
     }
     if (name === "name") {
       value = value.replace(/[^a-zA-Z\s]/g, ""); // Remove anything that's not a letter or space
@@ -61,12 +71,29 @@ const UpdateEmployeePage = () => {
     if (!name.trim() || !age || !email.trim() || !salary || !gender.trim()) {
       setError("Fill All Credentials!!");
       return false;
-    } else if (!emailRegex.test(email)) {
+    }
+    if (!emailRegex.test(email)) {
       setError("Fill Valid Email!");
       return false;
-    } else {
-      setError("");
-      return true;
+    }
+    if (age < 18 || age > 60) {
+      setError("Minimum age is 18 and maximum age is 60");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
+  const handleKeyPress = (e) => {
+    let { name, value } = e.target;
+    if (name == "age" && parseInt(value, 10) > 60) {
+      setError("Maximum Age Limit is 60");
+    }
+    if (
+      (name === "age" || name === "salary") &&
+      (e.key === "e" || e.key === "E")
+    ) {
+      e.preventDefault();
     }
   };
 
@@ -154,6 +181,7 @@ const UpdateEmployeePage = () => {
                 {...input}
                 value={formData[input.name] || ""}
                 onChange={handleValueChange}
+                onKeyDown={handleKeyPress}
               />
             </Stack>
           )

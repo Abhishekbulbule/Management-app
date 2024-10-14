@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@mui/material/Button";
 
-const ButtonComponent = ({ label, type = "Button" }) => {
+const ButtonComponent = ({ label, type = "Button", onClick }) => {
   return (
     // <button className={classes} onClick={onclick}>
     //   {label}
@@ -10,6 +10,7 @@ const ButtonComponent = ({ label, type = "Button" }) => {
     <Button
       type={type}
       label={label}
+      onClick={onClick}
       variant="contained"
       sx={{
         backgroundColor: "#1976d2",

@@ -26,6 +26,16 @@ const AddEmployeePage = () => {
   });
   const dispatch = useDispatch();
 
+  const handleKeyPress = (e) => {
+    let { name } = e.target;
+    if (
+      (name === "age" || name === "salary") &&
+      (e.key === "e" || e.key === "E")
+    ) {
+      e.preventDefault();
+    }
+  };
+
   const handleValueChange = (e) => {
     let { name, value } = e.target;
     if (
@@ -33,12 +43,8 @@ const AddEmployeePage = () => {
       value.startsWith("0") &&
       value.length > 1
     ) {
-      value = value.replace(/^0+/, ""); // Remove leading zeros
+      value = value.replace(/^0+/, ""); //replace first 0
     }
-    if (name === "age" && e.key.length === 1 && !/^[0-9]$/.test(e.key)) {
-      e.preventDefault();
-    }
-
     if (name === "age" && (value < 18 || value > 60)) {
       setError("Minimum age is 18 and maximum age is 60!!");
     } else {
@@ -57,14 +63,12 @@ const AddEmployeePage = () => {
 
   const validateFormData = () => {
     const { name, age, email, gender, salary } = formData;
-    console.log(email);
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!name.trim() || !age || !email.trim() || !salary || !gender.trim()) {
       setError("Fill All Credentials!!");
       return false;
     }
     if (!emailRegex.test(email)) {
-      console.log(email);
       setError("Fill Valid Email!");
       return false;
     }
@@ -162,6 +166,7 @@ const AddEmployeePage = () => {
                 {...input}
                 value={formData[input.name] || ""}
                 onChange={handleValueChange}
+                onKeyDown={handleKeyPress}
               />
             </Stack>
           )
