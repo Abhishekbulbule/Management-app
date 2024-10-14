@@ -2,12 +2,14 @@ import React from "react";
 import { it, expect, describe, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import AddEmployeePage from "../AddEmployeePage";
+import AddEmployeePage from "../src/AddEmployeePage";
 import { configureStore } from "@reduxjs/toolkit";
-import employeeReducer, { addEmployee } from "../redux_app/Employee/employee";
+import employeeReducer, {
+  addEmployee,
+} from "../src/redux_app/Employee/employee";
 import { Provider } from "react-redux";
 
-vi.mock("../redux_app/Employee/employee", { spy: true });
+vi.mock("../src/redux_app/Employee/employee", { spy: true });
 const store = configureStore({
   reducer: {
     employee: employeeReducer,

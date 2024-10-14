@@ -3,10 +3,8 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Paper,
   Typography,
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
 import React from "react";
 
 const CardComponent = ({ title, src }) => {
@@ -34,14 +32,3 @@ const CardComponent = ({ title, src }) => {
 };
 
 export default CardComponent;
-
-// <div className="w-64 mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-//   <img
-//     className="w-full h-48 object-cover"
-//     src={src || "https://via.placeholder.com/400"}
-//     alt="Card Image"
-//   />
-//   <div className="p-4">
-//     <Typography variant="subtitle2">{title}</Typography>
-//   </div>
-// </div>

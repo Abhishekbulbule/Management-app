@@ -28,24 +28,14 @@ const Homepage = () => {
       <AppBar position="relative">
         <Toolbar>
           <HailIcon />
-          {/* <Typography
-            variant="h6"
-            sx={{
-              marginY: 1,
-              fontWeight: "bold",
-              color: "",
-            }}
-          >
-            Employee Management App
-          </Typography> */}
           <Typography
             variant="h6"
             sx={{
               marginY: 2, // Slightly increased vertical margin for better spacing
               fontWeight: "bold",
-              color: "white", // Rich dark blue color for text
+              color: "white",
               borderRadius: 1, // Slightly rounded corners
-              padding: 1, // Padding for a bit of breathing space around the text
+              padding: 1,
             }}
           >
             Employee Management App

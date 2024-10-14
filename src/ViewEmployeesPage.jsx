@@ -54,7 +54,6 @@ const ViewEmployeesPage = () => {
     { field: "manage", headerName: "Edit/Update", type: "button", width: 200 },
   ];
   const rows = Array.isArray(employees) ? employees : [];
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
