@@ -2,7 +2,7 @@ import React from "react";
 import { it, expect, describe, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import Input from "../components/Input";
+import Input from "../src/components/Input";
 
 //input
 describe("input", () => {

@@ -3,9 +3,9 @@ import { it, expect, describe } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { BrowserRouter as Router } from "react-router-dom";
-import Homepage from "../Homepage";
+import Homepage from "../src/Homepage";
 import { configureStore } from "@reduxjs/toolkit";
-import employeeReducer from "../redux_app/Employee/employee";
+import employeeReducer from "../src/redux_app/Employee/employee";
 import { Provider } from "react-redux";
 const store = configureStore({
   reducer: {
@@ -34,16 +34,16 @@ describe("Homepage", () => {
       </Provider>
     );
     //add
-    const addbutton = screen.getByText(/Add Employee Details/i);
+    const addbutton = screen.getByText(/Add/i);
     expect(addbutton).toBeInTheDocument();
     fireEvent.click(addbutton);
     expect(window.location.pathname).toBe("/add");
     //view
-    const viewButton = screen.getByText(/Manage Employees/i);
+    const viewButton = screen.getByText("Manage");
     expect(viewButton).toBeInTheDocument();
     fireEvent.click(viewButton);
     expect(window.location.pathname).toBe("/view");
-    //gallery
+    // //gallery
     const galleryButton = screen.getByText(/gallery/i);
     expect(galleryButton).toBeInTheDocument();
     fireEvent.click(galleryButton);
