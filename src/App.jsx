@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getEmployees } from "./redux_app/Employee/employee";
 import { useDispatch } from "react-redux";
 import Gallery from "./Gallery";
+import { CssBaseline } from "@mui/material";
 function App() {
   const dispatch = useDispatch();
   //Fetching Data once component load
@@ -15,6 +16,7 @@ function App() {
   }, []);
   return (
     <>
+      <CssBaseline enableColorScheme />
       <Router>
         <Homepage />
         <Routes>

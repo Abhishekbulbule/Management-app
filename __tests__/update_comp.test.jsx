@@ -3,12 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { describe, expect, it } from "vitest";
-import UpdateEmployeePage from "../UpdateEmployeePage";
+import UpdateEmployeePage from "../src/UpdateEmployeePage";
 import employeeReducer, {
   updateEmployee,
-} from "../redux_app/Employee/employee";
+} from "../src/redux_app/Employee/employee";
 import { Route, MemoryRouter as Router, Routes } from "react-router-dom";
-vi.mock("../redux_app/Employee/employee", { spy: true });
+vi.mock("../src/redux_app/Employee/employee", { spy: true });
 // vi.mock(import("react-router-dom"), { spy: true });
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", async () => {
